@@ -7,15 +7,20 @@ use App\Repository\ProductEntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class TestController extends Controller
 {
     private $entityRepository;
 
+    private $serializer;
+
     public function __construct(
-        ProductEntityRepository $entityRepository
+        ProductEntityRepository $entityRepository,
+        SerializerInterface $serializer
     ) {
         $this->entityRepository = $entityRepository;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -52,6 +57,6 @@ class TestController extends Controller
      */
     public function indexAction(ProductEntity $product)
     {
-        return $this->render('index.html.twig', ['product' => $product]);
+        return $this->render('index.html.twig', ['product' => $this->serializer->serialize($product, 'json')]);
     }
 }
