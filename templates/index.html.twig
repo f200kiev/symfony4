@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="app" data-event-id="{{ product.id }}"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {% if app.environment == 'dev' %}
+        <script src="http://127.0.0.1:8000/app.bundle.js"></script>
+    {% endif %}
+{% endblock %}

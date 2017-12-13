@@ -1,0 +1,7 @@
+App\Entity\ProductEntity:
+    properties:
+        productName:
+            - NotBlank: ~
+
+        productValue:
+            - Type: numeric
