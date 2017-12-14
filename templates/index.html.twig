@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <script>
-        var foo = {"test":"test"};
-    </script>
     <div id="app"></div>
+{% endblock %}
+
+{% block css %}
+    {% if app.environment == 'dev' %}
+        <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/css/bootstrap/dist/css/bootstrap.css">
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
     {% if app.environment == 'dev' %}
-        <script src="http://127.0.0.1:8000/app.bundle.js"></script>
+        <script src="http://127.0.0.1:8000/js/app.bundle.js"></script>
     {% endif %}
 {% endblock %}

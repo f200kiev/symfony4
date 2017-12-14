@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'public');
+var BUILD_DIR = path.resolve(__dirname, 'public/js');
 var APP_DIR = path.resolve(__dirname, 'react');
 var config = {
     entry: [

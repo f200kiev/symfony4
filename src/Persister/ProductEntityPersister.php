@@ -22,6 +22,17 @@ class ProductEntityPersister
         return $entity;
     }
 
+    public function update(ProductEntity $newProduct, ProductEntity $oldProduct): ProductEntity
+    {
+        $oldProduct->setProductName($newProduct->getProductName());
+        $oldProduct->setProductValue($newProduct->getProductValue());
+
+        $this->entityManager->persist($oldProduct);
+        $this->entityManager->flush();
+
+        return $oldProduct;
+    }
+
     public function remove(ProductEntity $entity): void
     {
         $this->entityManager->remove($entity);

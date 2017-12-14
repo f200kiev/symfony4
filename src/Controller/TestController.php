@@ -6,6 +6,7 @@ use App\Entity\ProductEntity;
 use App\Repository\ProductEntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -26,37 +27,43 @@ class TestController extends Controller
     /**
      * @param ProductEntity
      *
-     * @return Response
+     * @return JsonResponse
      *
-     * @Route("/test/{product}", name="test")
+     * @Route("/get_product/{product}", name="test")
      */
-    public function index(ProductEntity $product)
+    public function getProduct(ProductEntity $product): JsonResponse
     {
-        var_dump($product);
-        die;
+        $response = new JsonResponse();
+        $response->setData(json_decode($this->serializer->serialize($product, 'json')));
 
-        return new Response('Welcome to your new controller!');
+        return $response;
     }
 
     /**
+     * @return JsonResponse
+     *
      * @Route("/show_all", name="show_all")
      */
-    public function showAll()
+    public function showAll(): JsonResponse
     {
-        var_dump($this->entityRepository->findByAll());
-        die;
+        $products = $this->entityRepository->findByAll();
+
+        $response = new JsonResponse();
+        $response->setData(json_decode($this->serializer->serialize($products, 'json')));
+
+        return $response;
     }
 
     /**
-     * @param ProductEntity
-     *
      * @Route("/", name="homepage")
      * @Route("/product/{product}", name="product")
      *
+     * @param int $product
+     *
      * @return Response
      */
-    public function indexAction(ProductEntity $product)
+    public function indexAction(int $product)
     {
-        return $this->render('index.html.twig', ['product' => $this->serializer->serialize($product, 'json')]);
+        return $this->render('index.html.twig', ['product' => $product]);
     }
 }
