@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 
 import Request from 'axios';
 
+import { applyMiddleware, createStore } from 'redux';
+
+import { logger } from 'redux-logger';
+
+import thunk from 'redux-thunk';
+
 import {
     render,
 } from 'react-dom';
@@ -60,6 +66,20 @@ const Homepage = () => {
     );
 };
 
+const reducer = function(state, action) {
+    if (action.type === "INC") {
+        return state+action.payload;
+    }
+    return state;
+};
+
+const middleware = applyMiddleware(thunk, logger);
+const store = createStore(reducer, middleware);
+
+store.subscribe(() => {
+   console.log("store changed", store.getState());
+});
+
 class ProductPage extends React.Component
 {
     constructor(props) {
@@ -75,6 +95,7 @@ class ProductPage extends React.Component
         this.setState({
             prodId: event.target.value
         });
+        store.dispatch({type: "INC", payload: 1});
     }
 
     render() {
